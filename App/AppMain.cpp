@@ -13,10 +13,10 @@ int main(int argc, char** argv)
 	#endif
 
 	boost::shared_ptr<std::string> pVar = boost::dll::import<std::string>( pathDLL, "sModuleName" );
-	std::cout << *pVar << std::endl;
+	std::cout << "Variable: " << *pVar << std::endl;
 
 	std::function<std::string()> funcExt = boost::dll::import<std::string()>(pathDLL, "getName");
-	std::cout << funcExt() << std::endl;
+	std::cout << "Function: " << funcExt() << std::endl;
 
 	return 0;
 }

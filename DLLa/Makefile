@@ -9,7 +9,7 @@ C++ = g++
 CP = cp -f
 RM = rm -f
 
-CFLAGS	= --std=c++11 -fPIC -g
+CFLAGS	= --std=c++11 -fPIC -g -fvisibility=hidden
 
 DLL			= libDLLa.so
 

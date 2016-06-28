@@ -9,7 +9,7 @@ int main(int argc, char** argv)
 	#ifdef _WIN32
 	boost::filesystem::path pathDLL = "DLLa.dll";
 	#else
-	boost::filesystem::path pathDLL = "libDLLA.so";
+	boost::filesystem::path pathDLL = "libDLLa.so";
 	#endif
 
 	boost::shared_ptr<std::string> pVar = boost::dll::import<std::string>( pathDLL, "sModuleName" );

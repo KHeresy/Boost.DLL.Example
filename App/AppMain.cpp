@@ -12,10 +12,10 @@ int main(int argc, char** argv)
 	boost::filesystem::path pathDLL = "libDLLa.so";
 	#endif
 
-	boost::shared_ptr<std::string> pVar = boost::dll::import<std::string>( pathDLL, "sModuleName" );
+	boost::shared_ptr<std::string> pVar = boost::dll::import_alias<std::string>( pathDLL, "NAME" );
 	std::cout << "Variable: " << *pVar << std::endl;
 
-	std::function<std::string()> funcExt = boost::dll::import<std::string()>(pathDLL, "getName");
+	std::function<std::string()> funcExt = boost::dll::import_alias<std::string()>(pathDLL, "GET_NAME");
 	std::cout << "Function: " << funcExt() << std::endl;
 
 	return 0;

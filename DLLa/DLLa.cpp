@@ -2,12 +2,14 @@
 #include <string>
 
 // Boost Headers
-#include <boost/config.hpp>
-#define API extern "C" BOOST_SYMBOL_EXPORT
+#include <boost/dll/alias.hpp>
 
-API std::string sModuleName = "Module A";
+std::string sModuleName = "Module A";
 
-API std::string getName()
+std::string getName()
 {
 	return sModuleName;
 }
+
+BOOST_DLL_ALIAS(sModuleName, NAME)
+BOOST_DLL_ALIAS_SECTIONED(getName, GET_NAME, XD)

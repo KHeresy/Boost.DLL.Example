@@ -1,3 +1,5 @@
+#include "../API/MyAPI.h"
+
 // STD Headers
 #include <iostream>
 
@@ -12,11 +14,12 @@ int main(int argc, char** argv)
 	boost::filesystem::path pathDLL = "libDLLa.so";
 	#endif
 
-	boost::shared_ptr<std::string> pVar = boost::dll::import<std::string>( pathDLL, "sModuleName" );
-	std::cout << "Variable: " << *pVar << std::endl;
+	// generate data
+	std::vector<double> vData = {1,2,3,4,5,6,7,8,9,0};
 
-	std::function<std::string()> funcExt = boost::dll::import<std::string()>(pathDLL, "getName");
-	std::cout << "Function: " << funcExt() << std::endl;
+	std::function<API_Create> funcExt = boost::dll::import_alias<API_Create>(pathDLL, "create_plugin");
+	boost::shared_ptr<CMyAPI> pModule = funcExt();
+	std::cout << "Module [" << pModule->getName() << "], result: " << pModule->compute(vData) << std::endl;
 
 	return 0;
 }

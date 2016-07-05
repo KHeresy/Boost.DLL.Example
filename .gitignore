@@ -242,3 +242,13 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/libDLLA.so
+/DLLb/libDLLb.so
+/DLLb/DLLb.o
+/DLLa/libDLLa.so
+/DLLa/DLLa.o
+/Bin/libDLLb.so
+/Bin/libDLLa.so
+/Bin/*
+/App/AppMain.o
+/App/App.out

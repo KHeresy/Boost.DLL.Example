@@ -12,11 +12,25 @@ int main(int argc, char** argv)
 	boost::filesystem::path pathDLL = "libDLLa.so";
 	#endif
 
-	boost::shared_ptr<std::string> pVar = boost::dll::import_alias<std::string>( pathDLL, "NAME" );
-	std::cout << "Variable: " << *pVar << std::endl;
+	// Load library information
+	boost::dll::library_info infDLL(pathDLL);
 
-	std::function<std::string()> funcExt = boost::dll::import_alias<std::string()>(pathDLL, "GET_NAME");
-	std::cout << "Function: " << funcExt() << std::endl;
+	// get all section name
+	std::vector<std::string> vSections = infDLL.sections();
+	for (const std::string& sSection : vSections)
+	{
+		std::cout << "Section: " << sSection << "\n";
+
+		if (sSection[0] == '.')
+			continue;
+
+		// get all symbol name
+		std::vector<std::string> vSymbol = infDLL.symbols(sSection);
+		for (const std::string& sSymbol : vSymbol)
+		{
+			std::cout << " - " << sSymbol << "\n";
+		}
+	}
 
 	return 0;
 }

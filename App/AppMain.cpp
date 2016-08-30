@@ -2,7 +2,7 @@
 #include <iostream>
 
 // Boost Headers
-#include <boost/dll.hpp>
+#include <boost/dll/shared_library.hpp>
 
 int main(int argc, char** argv)
 {
@@ -12,11 +12,19 @@ int main(int argc, char** argv)
 	boost::filesystem::path pathDLL = "libDLLa.so";
 	#endif
 
-	boost::shared_ptr<std::string> pVar = boost::dll::import_alias<std::string>( pathDLL, "NAME" );
-	std::cout << "Variable: " << *pVar << std::endl;
+	boost::dll::shared_library libDLL(pathDLL);
+	if (libDLL.has("NAME"))
+	{
+		std::string sVar = libDLL.get_alias<std::string>("NAME");
+		std::cout << "Variable: " << sVar << std::endl;
+	}
 
-	std::function<std::string()> funcExt = boost::dll::import_alias<std::string()>(pathDLL, "GET_NAME");
-	std::cout << "Function: " << funcExt() << std::endl;
+	if (libDLL.has("GET_NAME"))
+	{
+		std::function<std::string()> funcExt = libDLL.get_alias<std::string()>("GET_NAME");
+		std::cout << "Function: " << funcExt() << std::endl;
+	}
+	libDLL.unload();
 
 	return 0;
 }

@@ -6,6 +6,27 @@
 // Boost Headers
 #include <boost/dll.hpp>
 
+struct library_holding_deleter
+{
+	library_holding_deleter(const boost::filesystem::path& pathDLL)
+	{
+		mLib = boost::make_shared<boost::dll::shared_library>(pathDLL);
+	}
+
+	boost::shared_ptr<boost::dll::shared_library> mLib;
+
+	void operator()(CMyAPI* p) const {
+		delete p;
+	}
+};
+
+boost::shared_ptr<CMyAPI> GetModule( const boost::filesystem::path& pathDLL )
+{
+	std::function<API_Create> funcExt = boost::dll::import_alias<API_Create>(pathDLL, "create_plugin");
+	CMyAPI* pModule = funcExt();
+	return boost::shared_ptr<CMyAPI>(pModule,library_holding_deleter(pathDLL));
+}
+
 int main(int argc, char** argv)
 {
 	// generate data
@@ -22,8 +43,7 @@ int main(int argc, char** argv)
 			{
 				std::cout << "\nTry to load " << pathFile << std::endl;
 
-				std::function<API_Create> funcExt = boost::dll::import_alias<API_Create>(pathFile, "create_plugin");
-				boost::shared_ptr<CMyAPI> pModule = funcExt();
+				boost::shared_ptr<CMyAPI> pModule = GetModule(pathFile);
 				std::cout << "Module [" << pModule->getName() << "], result: " << pModule->compute(vData) << std::endl;
 			}
 		}

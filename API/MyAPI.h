@@ -16,4 +16,4 @@ public:
 };
 
 // define create function
-typedef boost::shared_ptr<CMyAPI>(API_Create)();
+typedef CMyAPI*(API_Create)();

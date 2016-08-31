@@ -33,8 +33,8 @@ public:
 	}
 
 public:
-	static boost::shared_ptr<CMyAPI> create() {
-		return boost::shared_ptr<CMyAPI>( new CSum() );
+	static CMyAPI* create() {
+		return new CSum();
 	}
 };
 

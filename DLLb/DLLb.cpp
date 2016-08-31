@@ -36,8 +36,8 @@ public:
 	}
 
 public:
-	static boost::shared_ptr<CMyAPI> create() {
-		return boost::shared_ptr<CMyAPI>( new CAvg() );
+	static CMyAPI* create() {
+		return new CAvg();
 	}
 };
 
